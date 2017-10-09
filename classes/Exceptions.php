@@ -29,7 +29,7 @@ class NoAuthenticationResultException extends \Exception
 
     public function __construct()
     {
-        parent::__construct("The Authentication request didn't return the expected result!, 0);
+        parent::__construct("The Authentication request didn't return the expected result!", 0);
     }
 
 }
