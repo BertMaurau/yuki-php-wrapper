@@ -1,0 +1,14 @@
+{
+    "name": "bertmaurau/yuki",
+    "description": "Yuki Webservice Integration",
+    "type": "project",
+    "require": {
+        "vlucas/phpdotenv": "^2.4"
+    },
+    "authors": [
+        {
+            "name": "Bert Maurau",
+            "email": "hello@bertmaurau.be"
+        }
+    ]
+}
