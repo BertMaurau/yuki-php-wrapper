@@ -1,8 +1,8 @@
 {
     "name": "bertmaurau/yuki-pettycash",
     "description": "Yuki PettyCash Webservice Integration",
-    "type": "library",
-	"version": "1.0.0",
+	"keywords": ["yuki", "pettycash", "import"],
+	"version": "1.0.3",
 	"minimum-stability": "dev",
     "require": {
 		"php": ">=5.4.0"
@@ -18,7 +18,8 @@
     ],
 	"autoload": {
         "psr-4": {
-            "BertMaurau\\": "classes/"
+            "BertMaurau\\": "src/"
         }
     }
 }
+ 
