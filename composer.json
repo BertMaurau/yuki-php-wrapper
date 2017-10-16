@@ -1,6 +1,6 @@
 {
-    "name": "bertmaurau/yuki",
-    "description": "Yuki Webservice Integration",
+    "name": "bertmaurau/yuki-pettycash",
+    "description": "Yuki PettyCash Webservice Integration",
     "type": "project",
     "require": {
         "vlucas/phpdotenv": "^2.4"
@@ -13,7 +13,7 @@
     ],
 	"autoload": {
         "psr-0": {
-            "Yuki": "classes/"
+            "BertMaurau\\Integrations\\Yuki": "classes/"
         }
     }
 }
