@@ -16,9 +16,7 @@
  * limitations under the License.
  */
 
-use BertMaurau\Integrations\Yuki as Yuki;
-
-require_once 'classes/PettyCash.php';
+require_once 'src/PettyCash.php';
 
 // This part is optional and is just for loading config variables into session
 require __DIR__ . '/vendor/autoload.php';
@@ -27,7 +25,7 @@ $dotenv -> load();
 
 // Init new Yuki pettycash object
 try {
-    $yuki = (new Yuki\PettyCash())
+    $yuki = (new \Yuki\PettyCash())
             -> setAccessKey(getenv('API_TOKEN'))
             -> setAdministrationID(getenv('ADMINISTRATION_ID'))
             -> authenticate();
