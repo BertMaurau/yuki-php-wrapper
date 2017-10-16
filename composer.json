@@ -1,7 +1,8 @@
 {
     "name": "bertmaurau/yuki-pettycash",
     "description": "Yuki PettyCash Webservice Integration",
-    "type": "project",
+    "type": "library",
+	"version": "1.0.0",
     "require": {
         "vlucas/phpdotenv": "^2.4"
     },
