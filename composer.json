@@ -18,7 +18,7 @@
     ],
 	"autoload": {
         "psr-0": {
-            "BertMaurau\\Integrations\\Yuki": "classes/"
+            "BertMaurau\\Integrations\\Yuki\\": "classes/"
         }
     }
 }
