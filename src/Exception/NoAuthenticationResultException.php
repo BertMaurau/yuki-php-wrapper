@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-namespace BertMaurau\Integrations\Yuki\Exceptions;
+namespace Yuki\Exception;
 
 
 /**

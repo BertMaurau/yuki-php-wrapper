@@ -16,9 +16,9 @@
  * limitations under the License.
  */
 
-namespace BertMaurau\Integrations\Yuki;
+namespace Yuki;
 
-use BertMaurau\Integrations\Yuki\Exceptions as Exceptions;
+use Yuki\Exception as Exception;
 
 require_once __DIR__ . '\Exceptions.php';
 
@@ -61,7 +61,7 @@ class Yuki
         }
         if (!property_exists($result, 'AuthenticateResult')) {
             // Catch/Handle exceptions here
-            throw new Exceptions\NoAuthenticationResultException();
+            throw new Exception\NoAuthenticationResultException();
         }
         // Set the returned sessionID for future usage
         $this -> setSessionID($result -> AuthenticateResult);

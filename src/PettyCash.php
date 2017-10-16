@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-namespace BertMaurau\Integrations\Yuki;
+namespace Yuki;
 
 require_once __DIR__ . '\Yuki.php';
 
