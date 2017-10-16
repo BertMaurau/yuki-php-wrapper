@@ -20,7 +20,7 @@ namespace Yuki;
 
 use Yuki\Exception as Exception;
 
-require_once __DIR__ . '\Exceptions.php';
+require_once __DIR__ . '\Exception\NoAuthenticationResultException.php';
 
 /**
  * Description of the main Yuki Class
