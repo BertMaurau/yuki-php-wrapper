@@ -10,5 +10,10 @@
             "name": "Bert Maurau",
             "email": "hello@bertmaurau.be"
         }
-    ]
+    ],
+	"autoload": {
+        "psr-0": {
+            "Yuki": "classes/"
+        }
+    }
 }
