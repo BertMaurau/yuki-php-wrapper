@@ -19,7 +19,7 @@
 namespace Yuki\Exception;
 
 /**
- * Gets thrown when there is no valid response for the Authentication request
+ * Gets thrown when there is no Domain ID set.
  *
  * @author Bert Maurau
  */
