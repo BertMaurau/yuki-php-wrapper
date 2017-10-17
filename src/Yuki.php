@@ -44,6 +44,93 @@ class Yuki
     }
 
     /**
+     * List all active domains that are available for the given access Token
+     * @return DomainsResult
+     * @throws \Exception
+     */
+    public function domains()
+    {
+        $request = array(
+            "sessionID" => $this -> getSessionID());
+
+        try {
+            $result = $this -> soap -> Domains($request);
+        } catch (\Exception $ex) {
+            // Just pass the exception through and let the index handle the exception
+            throw $ex;
+        }
+
+        return $result -> DomainsResult;
+    }
+
+    /**
+     * Get the current set domain for given session
+     * @return GetCurrentDomainResult
+     * @throws \Exception
+     */
+    public function getCurrentDomain()
+    {
+        $request = array(
+            "sessionID" => $this -> getSessionID());
+
+        try {
+            $result = $this -> soap -> GetCurrentDomain($request);
+        } catch (\Exception $ex) {
+            // Just pass the exception through and let the index handle the exception
+            throw $ex;
+        }
+        return $result -> GetCurrentDomainResult;
+    }
+
+    /**
+     * Set which domain needs to be used for the current session
+     * @param type $domainId
+     * @return $this
+     * @throws \Exception
+     */
+    public function setCurrentDomain($domainId)
+    {
+        $request = array(
+            "sessionID" => $this -> getSessionID(),
+            "domainID"  => $domainId);
+
+        try {
+            $result = $this -> soap -> SetCurrentDomain($request);
+        } catch (\Exception $ex) {
+            // Just pass the exception through and let the index handle the exception
+            throw $ex;
+        }
+
+        return $this;
+    }
+
+    /**
+     * DEPRECATED
+     * Authenticate with the Webservice, using a username and password, to get
+     * the current Session ID and store the result for future usage.
+     * @return $this
+     * @throws \Exception
+     */
+    public function authenticateByUserName()
+    {
+        $request = array(
+            "userName" => $this -> getUserName(),
+            "password" => $this -> getPassword());
+
+        try {
+            $result = $this -> soap -> AuthenticateByUserName($request);
+        } catch (\Exception $ex) {
+            // Just pass the exception through and let the index handle the exception
+            throw $ex;
+        }
+
+        // Set the returned sessionID for future usage
+        $this -> setSessionID($result -> AuthenticateResult);
+
+        return $this;
+    }
+
+    /**
      * Authenticate with the Webservice, using the accessKey, to get the current
      * active Session and store the result for future usage.
      * @return self
