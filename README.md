@@ -31,7 +31,7 @@ Currently available
  - Administrations
  
    **Required**: Session ID  
-   **Throws**: InvalidSessionIDException
+   **Throws**: InvalidSessionIDException  
    **Returns**: List of active administration models  
  
        $yuki -> administrations();
@@ -39,7 +39,7 @@ Currently available
  - GetAdministrationIDByName
  
    **Required**: Session ID 1 Administration Name
-   **Throws**: InvalidAdministrationNameException
+   **Throws**: InvalidAdministrationNameException  
    **Returns**: The ID of th administration   
  
        $yuki -> getAdministrationIDByName($administrationName);
@@ -47,21 +47,21 @@ Currently available
  - Authenticate 
  
    **Required**: Access Key  
-   **Throws**: InvalidAccessKeyException
+   **Throws**: InvalidAccessKeyException  
  
        $yuki -> authenticate();
  
  - AuthenticateByUserName (deprecated)
  
    **Required**: UserName & Password  
-   **Throws**: InvalidCredentialsException
+   **Throws**: InvalidCredentialsException  
  
        $yuki -> authenticateByUserName($userName, $password);
 
  - Domains
  
    **Required**: Session ID  
-   **Throws**: InvalidSessionIDException
+   **Throws**: InvalidSessionIDException  
    **Returns**: List of active domain models  
  
        $yuki -> domains();
@@ -69,7 +69,7 @@ Currently available
  - GetCurrentDomain
  
    **Required**: Session ID  
-   **Throws**: InvalidSessionIDException
+   **Throws**: InvalidSessionIDException  
    **Returns**: Returns current domain model    
  
        $yuki -> getCurrentDomain();
@@ -77,7 +77,7 @@ Currently available
  - SetCurrentDomain
  
    **Required**: Session ID  
-   **Throws**: InvalidSessionIDException
+   **Throws**: InvalidSessionIDException  
  
        $yuki -> setCurrentDomain();
 
