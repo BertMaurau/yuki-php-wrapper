@@ -8,7 +8,7 @@ Currently available
 ## Installation with Composer
 
     curl -s http://getcomposer.org/installer | php
-    php composer.phar require "bertmaurau/yuki-pettycash"
+    php composer.phar require "bertmaurau/yuki-php-wrapper"
     
 ## Usage
 
@@ -22,11 +22,7 @@ Currently available
         exit;
     }
 
-    // Load CSV data from file or do some other magic
-    $data = "CSV;Content;Here;..";
-
-    // Import the data
-    $result = $yuki -> import($data);
+    // Do stuffs here
 
 ## Methods
 
