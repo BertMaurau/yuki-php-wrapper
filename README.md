@@ -28,6 +28,20 @@ Yuki PettyCash CSV import using the SOAP Webservice
 
 ### Common
 
+ - Administrations
+ 
+   **Required**: Session ID  
+   **Throws**: InvalidSessionIDException
+ 
+       $yuki -> domains();
+       
+ - GetAdministrationIDByName
+ 
+   **Required**: Session ID 1 Administration Name
+   **Throws**: InvalidAdministrationNameException
+ 
+       $yuki -> getAdministrationIDByName($administrationName);
+
  - Authenticate 
  
    **Required**: Access Key  
@@ -66,8 +80,10 @@ Yuki PettyCash CSV import using the SOAP Webservice
 
 ### PettyCash
 
-   **Required**: Session ID, Administration ID & Statement Text 
-   **Throws**: Exception
+ - Import
+ 
+   **Required**: Session ID, Administration ID & Statement Text  
+   **Throws**: Exception  
  
        $yuki -> import($statementText);
 
