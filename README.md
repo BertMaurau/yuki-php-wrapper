@@ -38,9 +38,9 @@ Currently available
        
  - GetAdministrationIDByName
  
-   **Required**: Session ID 1 Administration Name
+   **Required**: Session ID 1 Administration Name  
    **Throws**: InvalidAdministrationNameException  
-   **Returns**: The ID of th administration   
+   **Returns**: The ID of the administration   
  
        $yuki -> getAdministrationIDByName($administrationName);
 
