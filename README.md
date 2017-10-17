@@ -1,5 +1,9 @@
-# yuki-import-pettycash
-Yuki PettyCash CSV import using the SOAP Webservice
+# yuki-wrapper
+PHP Wrapper for the Yuki SOAP Webservice
+
+Currently available
+ - Common Functions
+ - PettyCash Import
 
 ## Installation with Composer
 
