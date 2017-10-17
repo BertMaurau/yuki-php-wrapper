@@ -32,13 +32,15 @@ Currently available
  
    **Required**: Session ID  
    **Throws**: InvalidSessionIDException
+   **Returns**: List of active administration models  
  
-       $yuki -> domains();
+       $yuki -> administrations();
        
  - GetAdministrationIDByName
  
    **Required**: Session ID 1 Administration Name
    **Throws**: InvalidAdministrationNameException
+   **Returns**: The ID of th administration   
  
        $yuki -> getAdministrationIDByName($administrationName);
 
@@ -60,6 +62,7 @@ Currently available
  
    **Required**: Session ID  
    **Throws**: InvalidSessionIDException
+   **Returns**: List of active domain models  
  
        $yuki -> domains();
 
@@ -67,6 +70,7 @@ Currently available
  
    **Required**: Session ID  
    **Throws**: InvalidSessionIDException
+   **Returns**: Returns current domain model    
  
        $yuki -> getCurrentDomain();
 
