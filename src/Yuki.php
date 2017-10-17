@@ -25,10 +25,11 @@ require_once __DIR__ . '\Exception\InvalidSessionIDException.php';
 require_once __DIR__ . '\Exception\InvalidDomainIDException.php';
 require_once __DIR__ . '\Exception\InvalidCredentialsException.php';
 require_once __DIR__ . '\Exception\InvalidAccessKeyException.php';
-require_once __DIR__ . '\Exception\ModelNotFoundException.php';
 
 require_once __DIR__ . '\Model\Administration.php';
 require_once __DIR__ . '\Model\Domain.php';
+
+require_once __DIR__ . '\ModelFactory.php';
 
 /**
  * Description of the main Yuki Class
@@ -74,7 +75,7 @@ class Yuki
         }
 
         // Return the list of Administrations
-        return $this -> getModelsFromXML($result -> AdministrationsResult -> any, 'Administrationasd');
+        return $this -> getModelsFromXML($result -> AdministrationsResult -> any, 'Administration');
     }
 
     /**
@@ -264,10 +265,9 @@ class Yuki
         $parentnode = $model . 's';
         $childnode = $model;
 
-        $modelRef = 'Yuki\\Model\\' . $model;
-
-        if (!class_exists($modelRef, false)) {
-            throw new Exception\ModelNotFoundException($modelRef);
+        $modelFactory = new ModelFactory();
+        if (!$modelFactory -> checkModel($model)) {
+            throw new Exception\ModelNotFoundException($model);
         } else {
             // Loop the items
             foreach ($responseArray as $key => $value) {
@@ -278,7 +278,7 @@ class Yuki
                     if ($value['type'] === 'open') {
 
                         // Initiate a new Model
-                        $modelobj = new $modelRef;
+                        $modelobj = $modelFactory -> getModel($model);
                         // Set the ID
                         $modelobj -> setId($value['attributes']['ID']);
                     } else if ($value['type'] === 'close') {
