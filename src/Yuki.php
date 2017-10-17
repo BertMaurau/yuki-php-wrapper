@@ -80,6 +80,41 @@ class Yuki
     }
 
     /**
+     * List all active administrations
+     * @return array
+     * @throws Exception\InvalidSessionIDException
+     * @throws \Exception
+     */
+    public function companies()
+    {
+        // Check for sessionId first
+        if (!$this -> getSessionID()) {
+            throw new Exception\InvalidSessionIDException();
+        }
+
+        $request = array(
+            "sessionID" => $this -> getSessionID());
+
+        try {
+            $result = $this -> soap -> Companies($request);
+        } catch (\Exception $ex) {
+            // Just pass the exception through and let the index handle the exception
+            throw $ex;
+        }
+
+        $responseArray = $this -> parseXMLResponse($result -> CompaniesResult -> any);
+        $return = array();
+        foreach ($responseArray as $key => $value) {
+            if ($value['tag'] === 'Name') {
+                array_push($return, $value['value']);
+            }
+        }
+
+        // Return the list of Administrations
+        return $return;
+    }
+
+    /**
      * Get the Administration ID from Name
      * @param string $administrationName
      * @return string
