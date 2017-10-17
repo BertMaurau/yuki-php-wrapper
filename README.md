@@ -13,7 +13,7 @@ Currently available
 ## Usage
 
     try {
-        $yuki = (new \Yuki\PettyCash())
+        $yuki = (new \Yuki())
                 -> setAccessKey(getenv('API_TOKEN'))
                 -> setAdministrationID(getenv('ADMINISTRATION_ID'))
                 -> authenticate();
