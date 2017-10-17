@@ -22,6 +22,10 @@ require_once __DIR__ . '\Yuki.php';
 
 require_once __DIR__ . '\Exception\InvalidAdministrationIDException.php';
 require_once __DIR__ . '\Exception\InvalidStatementTextException.php';
+require_once __DIR__ . '\Exception\InvalidStatementLineException.php';
+
+require_once __DIR__ . '\Model\StatementLine.php';
+require_once __DIR__ . '\Model\StatementLineProject.php';
 
 /**
  * Description of the Yuki PettyCash Sub service
@@ -39,12 +43,12 @@ class PettyCash extends Yuki
     }
 
     /**
-     * Send SOAP request for ImportStatement
+     * Import Statement CSV string
      * @param string $statementText
      * @return stdclass
      * @throws \Exception
      */
-    public function import($statementText)
+    public function importStatementCSV($statementText)
     {
         // Check for sessionId first
         if (!$this -> getSessionID()) {
@@ -65,6 +69,74 @@ class PettyCash extends Yuki
 
         try {
             $result = $this -> soap -> ImportStatement($request);
+        } catch (\Exception $ex) {
+            // Just pss the exception through and let the index handle the exception
+            throw $ex;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Import a single Statement line
+     * @param \Yuki\Model\StatementLine $statementLine
+     * @return type
+     * @throws Exception\InvalidStatementLineException
+     * @throws \Exception
+     */
+    public function importStatementLine(Model\StatementLine $statementLine)
+    {
+        // Check for given StatementLine
+        if (!$statementLine) {
+            throw new Exception\InvalidStatementLineException();
+        }
+        $request = array(
+            "sessionId"              => $this -> getSessionID(),
+            "accountGlCode"          => $statementLine -> getAccountGlCode(),
+            "transactionCode"        => $statementLine -> getTransactionCode(),
+            "offsetAccount"          => $statementLine -> getOffsetAccount(),
+            "offsetName"             => $statementLine -> getOffsetName(),
+            "transactionDate"        => $statementLine -> getTransactionDate(),
+            "transactionDescription" => $statementLine -> getTransactionDescription(),
+            "amount"                 => $statementLine -> getAmount());
+
+        try {
+            $result = $this -> soap -> ImportSingleStatementLine($request);
+        } catch (\Exception $ex) {
+            // Just pss the exception through and let the index handle the exception
+            throw $ex;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Import a single Statement Project line
+     * @param \Yuki\Model\StatementLineProject $statementLineProject
+     * @return type
+     * @throws Exception\InvalidStatementLineException
+     * @throws \Exception
+     */
+    public function importStatementLineProject(Model\StatementLineProject $statementLineProject)
+    {
+        // Check for given StatementLineProject
+        if (!$statementLineProject) {
+            throw new Exception\InvalidStatementLineException();
+        }
+        $request = array(
+            "sessionId"              => $this -> getSessionID(),
+            "accountGlCode"          => $statementLineProject -> getAccountGlCode(),
+            "transactionCode"        => $statementLineProject -> getTransactionCode(),
+            "offsetAccount"          => $statementLineProject -> getOffsetAccount(),
+            "offsetName"             => $statementLineProject -> getOffsetName(),
+            "transactionDate"        => $statementLineProject -> getTransactionDate(),
+            "transactionDescription" => $statementLineProject -> getTransactionDescription(),
+            "amount"                 => $statementLineProject -> getAmount(),
+            "projectCode"            => $statementLineProject -> getProjectCode(),
+            "projectName"            => $statementLineProject -> getProjectName());
+
+        try {
+            $result = $this -> soap -> ImportSingleStatementProjectLine($request);
         } catch (\Exception $ex) {
             // Just pss the exception through and let the index handle the exception
             throw $ex;
