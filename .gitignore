@@ -3,3 +3,4 @@
 .env
 composer.lock
 src/test.php
+test/
