@@ -20,6 +20,9 @@ namespace Yuki;
 
 require_once __DIR__ . '\Yuki.php';
 
+require_once __DIR__ . '\Exception\InvalidAdministrationIDException.php';
+require_once __DIR__ . '\Exception\InvalidStatementTextException.php';
+
 /**
  * Description of the Yuki PettyCash Sub service
  *
@@ -43,6 +46,18 @@ class PettyCash extends Yuki
      */
     public function import($statementText)
     {
+        // Check for sessionId first
+        if (!$this -> getSessionID()) {
+            throw new Exception\InvalidSessionIDException();
+        }
+        // Check for sessionId first
+        if (!$this -> getAdministrationID()) {
+            throw new Exception\InvalidAdministrationIDException();
+        }
+        // Check for given domain
+        if (!$statementText) {
+            throw new Exception\InvalidStatementTextException();
+        }
         $request = array(
             "sessionID"        => $this -> getSessionID(),
             "administrationID" => $this -> getAdministrationID(),
