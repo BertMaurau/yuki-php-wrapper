@@ -25,6 +25,7 @@ require_once __DIR__ . '\Exception\InvalidSessionIDException.php';
 require_once __DIR__ . '\Exception\InvalidDomainIDException.php';
 require_once __DIR__ . '\Exception\InvalidCredentialsException.php';
 require_once __DIR__ . '\Exception\InvalidAccessKeyException.php';
+require_once __DIR__ . '\Exception\InvalidAdministrationNameException.php';
 
 require_once __DIR__ . '\Model\Administration.php';
 require_once __DIR__ . '\Model\Domain.php';
@@ -53,7 +54,7 @@ class Yuki
 
     /**
      * List all active administrations that are available for the given Session ID
-     * @return AdministrationsResult
+     * @return array List of Administrations
      * @throws InvalidSessionIDException
      * @throws \Exception
      */
@@ -79,8 +80,37 @@ class Yuki
     }
 
     /**
+     * Get the Administration ID from Name
+     * @param string $administrationName
+     * @return string
+     * @throws Exception\InvalidAdministrationNameException
+     * @throws \Exception
+     */
+    public function getAdministrationIDByName($administrationName)
+    {
+        // Check for sessionId first
+        if (!$administrationName) {
+            throw new Exception\InvalidAdministrationNameException();
+        }
+
+        $request = array(
+            "sessionID"          => $this -> getSessionID(),
+            "administrationName" => $administrationName);
+
+        try {
+            $result = $this -> soap -> AdministrationID($request);
+        } catch (\Exception $ex) {
+            // Just pass the exception through and let the index handle the exception
+            throw $ex;
+        }
+
+        // Return the list of Administrations
+        return $result -> AdministrationIDResult;
+    }
+
+    /**
      * List all active domains that are available for the given access Token
-     * @return DomainsResult
+     * @return List of Domains
      * @throws InvalidSessionIDException
      * @throws \Exception
      */
