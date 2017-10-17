@@ -40,7 +40,6 @@ class Yuki
     protected $administrationID;
     protected $accessKey;
     protected $soap;
-    protected $missingSessionValues = array();
 
     public function __construct($service)
     {
@@ -135,20 +134,22 @@ class Yuki
      * DEPRECATED
      * Authenticate with the Webservice, using a username and password, to get
      * the current Session ID and store the result for future usage.
+     * @param string $userName
+     * @param string $password
      * @return $this
      * @throws InvalidCredentialsException
      * @throws \Exception
      */
-    public function authenticateByUserName()
+    public function authenticateByUserName($userName, $password)
     {
         // Check for sessionId first
-        if (!$this -> getUserName() || !$this -> getPassword()) {
+        if (!$userName || !$password) {
             throw new Exception\InvalidCredentialsException();
         }
 
         $request = array(
-            "userName" => $this -> getUserName(),
-            "password" => $this -> getPassword());
+            "userName" => $userName,
+            "password" => $password);
 
         try {
             $result = $this -> soap -> AuthenticateByUserName($request);
