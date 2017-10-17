@@ -21,6 +21,10 @@ namespace Yuki;
 use Yuki\Exception as Exception;
 
 require_once __DIR__ . '\Exception\NoAuthenticationResultException.php';
+require_once __DIR__ . '\Exception\InvalidSessionIDException.php';
+require_once __DIR__ . '\Exception\InvalidDomainIDException.php';
+require_once __DIR__ . '\Exception\InvalidCredentialsException.php';
+require_once __DIR__ . '\Exception\InvalidAccessKeyException.php';
 
 /**
  * Description of the main Yuki Class
@@ -46,10 +50,16 @@ class Yuki
     /**
      * List all active domains that are available for the given access Token
      * @return DomainsResult
+     * @throws InvalidSessionIDException
      * @throws \Exception
      */
     public function domains()
     {
+        // Check for sessionId first
+        if (!$this -> getSessionID()) {
+            throw new Exception\InvalidSessionIDException();
+        }
+
         $request = array(
             "sessionID" => $this -> getSessionID());
 
@@ -66,10 +76,16 @@ class Yuki
     /**
      * Get the current set domain for given session
      * @return GetCurrentDomainResult
+     * @throws InvalidSessionIDException
      * @throws \Exception
      */
     public function getCurrentDomain()
     {
+        // Check for sessionId first
+        if (!$this -> getSessionID()) {
+            throw new Exception\InvalidSessionIDException();
+        }
+
         $request = array(
             "sessionID" => $this -> getSessionID());
 
@@ -86,10 +102,21 @@ class Yuki
      * Set which domain needs to be used for the current session
      * @param type $domainId
      * @return $this
+     * @throws InvalidSessionIDException
+     * @throws InvalidDomainIDException
      * @throws \Exception
      */
     public function setCurrentDomain($domainId)
     {
+        // Check for sessionId first
+        if (!$this -> getSessionID()) {
+            throw new Exception\InvalidSessionIDException();
+        }
+        // Check for given domain
+        if (!$domainId) {
+            throw new Exception\InvalidDomainIDException();
+        }
+
         $request = array(
             "sessionID" => $this -> getSessionID(),
             "domainID"  => $domainId);
@@ -109,10 +136,16 @@ class Yuki
      * Authenticate with the Webservice, using a username and password, to get
      * the current Session ID and store the result for future usage.
      * @return $this
+     * @throws InvalidCredentialsException
      * @throws \Exception
      */
     public function authenticateByUserName()
     {
+        // Check for sessionId first
+        if (!$this -> getUserName() || !$this -> getPassword()) {
+            throw new Exception\InvalidCredentialsException();
+        }
+
         $request = array(
             "userName" => $this -> getUserName(),
             "password" => $this -> getPassword());
@@ -134,9 +167,15 @@ class Yuki
      * Authenticate with the Webservice, using the accessKey, to get the current
      * active Session and store the result for future usage.
      * @return self
+     * @throws InvalidAccessKeyException
      */
     public function authenticate()
     {
+        // Check for given domain
+        if (!$this -> getAccessKey()) {
+            throw new Exception\InvalidAccessKeyException();
+        }
+
         $request = array(
             "accessKey" => $this -> getAccessKey());
 
