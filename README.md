@@ -102,8 +102,10 @@ The next Exceptions can be thrown:
 
  - **InvalidAccessKeyException**: When there is no Access Key set.
  - **InvalidAdministrationIDException**: When there is no Administration ID set.
+ - **InvalidAdministrationNameException**: When there is no Administration Name provided to get the ID.
  - **InvalidCredentialsException**: When there is no UserName or Password given (Deprecated).
  - **InvalidDomainIDException**: When there is no Domain ID set.
  - **InvalidSessionIDException**: When there is no Session ID set (Gets set after Authentication).
  - **InvalidStatementTextException**: When there is no Statement Text provided for import.
+ - **ModelNotFoundException**: When the requested model was not found.
  - **NoAuthenticationResultException**: When the Authenticate didn't return the expected results
