@@ -3,7 +3,7 @@ PHP Wrapper for the Yuki SOAP Webservice
 
 Currently available
  - Common Functions
- - PettyCash Import
+ - PettyCash
 
 ## Installation with Composer
 
@@ -84,12 +84,26 @@ Currently available
 
 ### PettyCash
 
- - Import
+ - ImportStatementCSV
  
    **Required**: Session ID, Administration ID & Statement Text  
-   **Throws**: Exception  
+   **Throws**: Exception & InvalidSessionIDException & InvalidAdministrationIDException & InvalidStatementTextException   
  
-       $yuki -> import($statementText);
+       $yuki -> importStatementCSV($statementText);
+       
+ - ImportStatementLine
+ 
+   **Required**: Session ID  
+   **Throws**: Exception & InvalidStatementLineException   
+ 
+       $yuki -> importStatementLine(Model\StatementLine $statementLine);
+
+ - ImportStatementLineProject
+ 
+   **Required**: Session ID  
+   **Throws**: Exception & InvalidStatementLineException  
+ 
+       $yuki -> importStatementLineProject(Model\StatementLineProject $statementLineProject);
 
 ### Getters & Setters
 
@@ -111,5 +125,7 @@ The next Exceptions can be thrown:
  - **InvalidDomainIDException**: When there is no Domain ID set.
  - **InvalidSessionIDException**: When there is no Session ID set (Gets set after Authentication).
  - **InvalidStatementTextException**: When there is no Statement Text provided for import.
+ - **InvalidStatementLineException**: When there is no Statement Line provided for import.
+ - **InvalidValueTypeException**: When given value doesn't match the required type.
  - **ModelNotFoundException**: When the requested model was not found.
  - **NoAuthenticationResultException**: When the Authenticate didn't return the expected results
