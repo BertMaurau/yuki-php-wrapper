@@ -25,6 +25,10 @@ require_once __DIR__ . '\Exception\InvalidSessionIDException.php';
 require_once __DIR__ . '\Exception\InvalidDomainIDException.php';
 require_once __DIR__ . '\Exception\InvalidCredentialsException.php';
 require_once __DIR__ . '\Exception\InvalidAccessKeyException.php';
+require_once __DIR__ . '\Exception\ModelNotFoundException.php';
+
+require_once __DIR__ . '\Model\Administration.php';
+require_once __DIR__ . '\Model\Domain.php';
 
 /**
  * Description of the main Yuki Class
@@ -44,6 +48,33 @@ class Yuki
     public function __construct($service)
     {
         $this -> soap = new \SoapClient(self::WS_URL . $service);
+    }
+
+    /**
+     * List all active administrations that are available for the given Session ID
+     * @return AdministrationsResult
+     * @throws InvalidSessionIDException
+     * @throws \Exception
+     */
+    public function administrations()
+    {
+        // Check for sessionId first
+        if (!$this -> getSessionID()) {
+            throw new Exception\InvalidSessionIDException();
+        }
+
+        $request = array(
+            "sessionID" => $this -> getSessionID());
+
+        try {
+            $result = $this -> soap -> Administrations($request);
+        } catch (\Exception $ex) {
+            // Just pass the exception through and let the index handle the exception
+            throw $ex;
+        }
+
+        // Return the list of Administrations
+        return $this -> getModelsFromXML($result -> AdministrationsResult -> any, 'Administrationasd');
     }
 
     /**
@@ -69,7 +100,8 @@ class Yuki
             throw $ex;
         }
 
-        return $result -> DomainsResult;
+        // Return the list of Administrations
+        return $this -> getModelsFromXML($result -> DomainsResult -> any, 'Domain');
     }
 
     /**
@@ -94,7 +126,9 @@ class Yuki
             // Just pass the exception through and let the index handle the exception
             throw $ex;
         }
-        return $result -> GetCurrentDomainResult;
+
+        // Return the Model
+        return $this -> getModelsFromXML($result -> GetCurrentDomainResult -> any, 'Domain', true);
     }
 
     /**
@@ -132,7 +166,7 @@ class Yuki
 
     /**
      * DEPRECATED
-     * Authenticate with the Webservice, using a username and password, to get
+     * Authenticate with the Web service, using a username and password, to get
      * the current Session ID and store the result for future usage.
      * @param string $userName
      * @param string $password
@@ -165,7 +199,7 @@ class Yuki
     }
 
     /**
-     * Authenticate with the Webservice, using the accessKey, to get the current
+     * Authenticate with the Web service, using the accessKey, to get the current
      * active Session and store the result for future usage.
      * @return self
      * @throws InvalidAccessKeyException
@@ -194,6 +228,76 @@ class Yuki
         $this -> setSessionID($result -> AuthenticateResult);
 
         return $this;
+    }
+
+    /**
+     * Parse the XML response to an accessible object
+     * @param string $response
+     * @return array
+     */
+    private function parseXMLResponse($response)
+    {
+        $parser = xml_parser_create();
+        xml_parser_set_option($parser, XML_OPTION_CASE_FOLDING, 0);
+        xml_parser_set_option($parser, XML_OPTION_SKIP_WHITE, 1);
+        xml_parse_into_struct($parser, $response, $vals, $index);
+        xml_parser_free($parser);
+
+        return $vals;
+    }
+
+    /**
+     * Parse the given XML to list of requested models and their properties
+     * @param string $response
+     * @param string $model
+     * @param boolean $returnOne
+     * @return array|\Yuki\Model
+     * @throws Exception\ModelNotFoundException
+     */
+    private function getModelsFromXML($response, $model, $returnOne = false)
+    {
+        $return = array();
+
+        // Parse the XML to an itterable array first
+        $responseArray = $this -> parseXMLResponse($response);
+
+        $parentnode = $model . 's';
+        $childnode = $model;
+
+        $modelRef = 'Yuki\\Model\\' . $model;
+
+        if (!class_exists($modelRef, false)) {
+            throw new Exception\ModelNotFoundException($modelRef);
+        } else {
+            // Loop the items
+            foreach ($responseArray as $key => $value) {
+                if ($value['tag'] === $parentnode) {
+                    // Do nothing with the open/close type
+                } else if ($value['tag'] === $childnode) {
+                    // Get the ID from the attributes only from the 'open' type
+                    if ($value['type'] === 'open') {
+
+                        // Initiate a new Model
+                        $modelobj = new $modelRef;
+                        // Set the ID
+                        $modelobj -> setId($value['attributes']['ID']);
+                    } else if ($value['type'] === 'close') {
+
+                        // End of the model, add the finished one to the list or return
+                        if ($returnOne) {
+                            return $modelobj;
+                        } else {
+                            array_push($return, $modelobj);
+                        }
+                    }
+                } else {
+                    // Set the value based on the tag
+                    $modelobj -> {'set' . $value['tag']}($value['value']);
+                }
+            }
+        }
+
+        return $return;
     }
 
     /**
