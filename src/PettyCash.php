@@ -65,7 +65,7 @@ class PettyCash extends Yuki
         $request = array(
             "sessionID"        => $this -> getSessionID(),
             "administrationID" => $this -> getAdministrationID(),
-            "statementText"    => $this -> getSessionID());
+            "statementText"    => $statementText);
 
         try {
             $result = $this -> soap -> ImportStatement($request);
