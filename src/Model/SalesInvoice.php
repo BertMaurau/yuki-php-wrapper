@@ -19,6 +19,7 @@
 namespace Yuki\Model;
 
 use Yuki\Exception as Exception;
+use Yuki\ModelFactory;
 
 require_once __DIR__ . '\..\Exception\InvalidValueTypeException.php';
 
@@ -58,15 +59,26 @@ class SalesInvoice
         return $this;
     }
 
-    private function recursiveXml($obj)
+    private function recursiveXml($elem)
     {
         $xmlDoc = '';
-        foreach (get_object_vars($obj) as $property => $value) {
+        $objects = (is_array($elem)) ? $elem : ((is_object($elem)) ? get_object_vars($elem) : exit());
+        foreach ($objects as $property => $value) {
             $property = ucfirst($property);
-            if (!is_array($value)) {
-                $xmlDoc .= '<' . $property . '>' . $value . '</' . $property . '>';
+            if (is_array($value)) {
+                $xmlDoc .= '<' . $property . '>';
+                foreach ($value as $index => $child) {
+                    $xmlDoc .= '<' . ModelFactory::getName($child) . '>';
+                    $xmlDoc .= $this -> recursiveXml($child);
+                    $xmlDoc .= '</' . ModelFactory::getName($child) . '>';
+                }
+                $xmlDoc .= '</' . $property . '>';
+            } else if (is_object($value)) {
+                $xmlDoc .= '<' . ModelFactory::getName($value) . '>';
+                $xmlDoc .= $this -> recursiveXml($value);
+                $xmlDoc .= '</' . ModelFactory::getName($value) . '>';
             } else {
-                $this -> recursiveXml($value, $property);
+                $xmlDoc .= '<' . $property . '>' . $value . '</' . $property . '>';
             }
         }
         return $xmlDoc;
