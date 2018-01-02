@@ -30,9 +30,9 @@ require_once __DIR__ . '\..\Exception\InvalidValueTypeException.php';
 class InvoiceLine
 {
 
-    private $description;
-    private $productQuantity;
-    private $product;
+    public $description;
+    public $productQuantity;
+    public $product;
 
     public function getDescription()
     {

@@ -30,15 +30,15 @@ require_once __DIR__ . '\..\Exception\InvalidValueTypeException.php';
 class Product
 {
 
-    private $description;
-    private $reference;
-    private $category;
-    private $salesPrice;
-    private $VATPercentage;
-    private $VATIncluded;
-    private $VATType;
-    private $GLAccountCode;
-    private $remarks;
+    public $description;
+    public $reference;
+    public $category;
+    public $salesPrice;
+    public $VATPercentage;
+    public $VATIncluded;
+    public $VATType;
+    public $GLAccountCode;
+    public $remarks;
 
     public function getDescription()
     {

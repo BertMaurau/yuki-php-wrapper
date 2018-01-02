@@ -30,22 +30,22 @@ require_once __DIR__ . '\..\Exception\InvalidValueTypeException.php';
 class Contact
 {
 
-    private $contactCode;
-    private $fullName;
-    private $firstName;
-    private $middleName;
-    private $lastName;
-    private $gender;
-    private $countryCode;
-    private $city;
-    private $zipcode;
-    private $addressLine_1;
-    private $addressLine_2;
-    private $emailAddress;
-    private $website;
-    private $CoCNumber;
-    private $VATNumber;
-    private $contactType;
+    public $contactCode;
+    public $fullName;
+    public $firstName;
+    public $middleName;
+    public $lastName;
+    public $gender;
+    public $countryCode;
+    public $city;
+    public $zipcode;
+    public $addressLine_1;
+    public $addressLine_2;
+    public $emailAddress;
+    public $website;
+    public $CoCNumber;
+    public $VATNumber;
+    public $contactType;
 
     public function getContactCode()
     {
