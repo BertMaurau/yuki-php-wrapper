@@ -70,12 +70,12 @@ class Sales extends Yuki
             $xmlDoc .= '</SalesInvoices>';
         }
         $request = array(
-            "sessionID"        => $this -> getSessionID(),
-            "administrationID" => $this -> getAdministrationID(),
+            "sessionId"        => $this -> getSessionID(),
+            "administrationId" => $this -> getAdministrationID(),
             "xmlDoc"           => $xmlDoc);
 
         try {
-            $result = $this -> soap -> ProcessSalesInvoice($request);
+            $result = $this -> soap -> ProcessSalesInvoices($request);
         } catch (\Exception $ex) {
             // Just pss the exception through and let the index handle the exception
             throw $ex;
