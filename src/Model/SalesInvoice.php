@@ -42,7 +42,7 @@ class SalesInvoice
     private $currency;
     private $remarks;
     private $contact;
-    private $invoiceLines;
+    private $invoiceLines = array();
 
     public function renderXml()
     {
