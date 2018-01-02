@@ -30,16 +30,22 @@ class ModelFactory
 
     const NAMESAPCE_REF = 'Yuki\\Model\\';
 
-    public function checkModel($modelName)
+    public static function checkModel($modelName)
     {
         $modelRef = self::NAMESAPCE_REF . $modelName;
         return class_exists($modelRef, false);
     }
 
-    public function getModel($modelName)
+    public static function getModel($modelName)
     {
         $modelRef = self::NAMESAPCE_REF . $modelName;
         return new $modelRef;
+    }
+
+    public static function getName($model)
+    {
+        $className = get_class($model);
+        return (substr($className, strrpos($className, '\\') + 1));
     }
 
 }
