@@ -21,6 +21,7 @@ namespace Yuki\Model;
 use Yuki\Exception as Exception;
 
 require_once __DIR__ . '\..\Exception\InvalidValueTypeException.php';
+require_once __DIR__ . '\..\Exception\NonAllowedEnumValueException.php';
 
 /**
  * Description of Contact
@@ -159,6 +160,10 @@ class Contact
 
     public function setGender($gender)
     {
+        $enum = array('Male', 'Female', 'Unknown');
+        if (!in_array($gender, $enum)) {
+            throw new Exception\NonAllowedEnumValueException(__CLASS__, 'Gender', $gender, json_encode($enum));
+        }
         $this -> gender = $gender;
         return $this;
     }
@@ -219,6 +224,10 @@ class Contact
 
     public function setContactType($contactType)
     {
+        $enum = array('Person', 'Company');
+        if (!in_array($contactType, $enum)) {
+            throw new Exception\NonAllowedEnumValueException(__CLASS__, 'ContactType', $contactType, json_encode($enum));
+        }
         $this -> contactType = $contactType;
         return $this;
     }
