@@ -120,7 +120,7 @@ class Product
         if (!is_bool($VATIncluded)) {
             throw new Exception\InvalidValueTypeException(__CLASS__, 'VATIncluded', gettype($VATIncluded), 'boolean');
         }
-        $this -> VATIncluded = $VATIncluded;
+        $this -> VATIncluded = ($VATIncluded) ? 'true' : 'false';
         return $this;
     }
 
