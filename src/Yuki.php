@@ -301,7 +301,7 @@ class Yuki
      * @param string $response
      * @return array
      */
-    private function parseXMLResponse($response)
+    protected function parseXMLResponse($response)
     {
         $parser = xml_parser_create();
         xml_parser_set_option($parser, XML_OPTION_CASE_FOLDING, 0);
@@ -320,7 +320,7 @@ class Yuki
      * @return array|\Yuki\Model
      * @throws Exception\ModelNotFoundException
      */
-    private function getModelsFromXML($response, $model, $returnOne = false)
+    protected function getModelsFromXML($response, $model, $returnOne = false)
     {
         $return = array();
 
