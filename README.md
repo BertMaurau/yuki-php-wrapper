@@ -76,31 +76,39 @@ Currently available
 
  - SetCurrentDomain
  
-   **Required**: Session ID  
+   **Required**: Domain ID  
    **Throws**: InvalidSessionIDException  
  
-       $yuki -> setCurrentDomain();
+       $yuki -> setCurrentDomain($domainId);
 
+### Sales
+
+ - ProcessSalesInvoices
+ 
+   **Required**: array of Invoices  
+   **Throws**: Exception & InvalidSessionIDException & InvalidAdministrationIDException & InvalidSalesInvoiceException   
+ 
+       $yuki -> processSalesInvoices($salesInvoices);
 
 ### PettyCash
 
  - ImportStatementCSV
  
-   **Required**: Session ID, Administration ID & Statement Text  
+   **Required**: Statement Text  
    **Throws**: Exception & InvalidSessionIDException & InvalidAdministrationIDException & InvalidStatementTextException   
  
        $yuki -> importStatementCSV($statementText);
        
  - ImportStatementLine
  
-   **Required**: Session ID  
+   **Required**: StatementLine  
    **Throws**: Exception & InvalidStatementLineException   
  
        $yuki -> importStatementLine(Model\StatementLine $statementLine);
 
  - ImportStatementLineProject
  
-   **Required**: Session ID  
+   **Required**: StatementLineProject  
    **Throws**: Exception & InvalidStatementLineException  
  
        $yuki -> importStatementLineProject(Model\StatementLineProject $statementLineProject);
@@ -128,4 +136,6 @@ The next Exceptions can be thrown:
  - **InvalidStatementLineException**: When there is no Statement Line provided for import.
  - **InvalidValueTypeException**: When given value doesn't match the required type.
  - **ModelNotFoundException**: When the requested model was not found.
- - **NoAuthenticationResultException**: When the Authenticate didn't return the expected results
+ - **NoAuthenticationResultException**: When the Authenticate didn't return the expected results  
+ - **NonAllowedEnumValueException**: When given value isn't within the allowed enum list values  
+
