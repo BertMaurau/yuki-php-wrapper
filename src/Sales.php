@@ -49,7 +49,7 @@ class Sales extends Yuki
      * @return stdclass
      * @throws \Exception
      */
-    public function processSalesInvoice($salesInvoice)
+    public function processSalesInvoices($salesInvoices)
     {
         // Check for sessionId first
         if (!$this -> getSessionID()) {
@@ -60,28 +60,64 @@ class Sales extends Yuki
             throw new Exception\InvalidAdministrationIDException();
         }
         // Check for given domain
-        if (!$salesInvoice) {
+        if (!$salesInvoices) {
             throw new Exception\InvalidSalesInvoiceException();
         } else {
-            $xmlDoc = '<SalesInvoices
-                        xmlns="urn:xmlns:https://www.theyukicompany.com:salesinvoices"
-                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">';
-            $xmlDoc .= $salesInvoice -> renderXml();
+            $xmlDoc = '<SalesInvoices>';
+            foreach ($salesInvoices as $key => $salesInvoice) {
+                $xmlDoc .= $salesInvoice -> renderXml();
+            }
             $xmlDoc .= '</SalesInvoices>';
         }
+
+        $xmlvar = new \SoapVar('<ns1:xmlDoc>' . $xmlDoc . '</ns1:xmlDoc>', \XSD_ANYXML);
+
         $request = array(
             "sessionId"        => $this -> getSessionID(),
             "administrationId" => $this -> getAdministrationID(),
-            "xmlDoc"           => $xmlDoc);
+            "xmlDoc"           => $xmlvar);
 
         try {
             $result = $this -> soap -> ProcessSalesInvoices($request);
         } catch (\Exception $ex) {
-            // Just pss the exception through and let the index handle the exception
+            // Just pass the exception through and let the index handle the exception
             throw $ex;
         }
 
-        return $result;
+        $responseArray = $this -> parseXMLResponse($result -> ProcessSalesInvoicesResult -> any);
+
+        // Response should always contain the next items
+        $invoiceCounter = 0;
+        $invoiceResponse = array();
+        $response = array();
+
+        foreach ($responseArray as $key => $value) {
+
+            // Check if start of invoice, init a new array for that invoice
+            if ($value['tag'] === 'Invoice' && $value['type'] === 'open') {
+                $invoiceResponse[$invoiceCounter] = array();
+            }
+
+            // check if tag is the level of the invoice
+            if ($value['level'] === 3) {
+                // Add the value to the current invoice
+                $invoiceResponse[$invoiceCounter][$value['tag']] = $value['value'];
+            }
+
+            // increase the counter to start next invoice
+            if ($value['tag'] === 'Invoice' && $value['type'] === 'close') {
+                $invoiceCounter++;
+            }
+
+            // other tags
+            if ($value['level'] === 2 && $value['type'] !== 'open' && $value['type'] !== 'close') {
+                $response[$value['tag']] = $value['value'];
+            }
+        }
+
+        $response['Invoices'] = $invoiceResponse;
+
+        return (object) $response;
     }
 
 }
