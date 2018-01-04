@@ -3,7 +3,8 @@ PHP Wrapper for the Yuki SOAP Webservice
 
 Currently available
  - Common Functions
- - PettyCash
+ - Sales (Invoicing)
+ - PettyCash (Import CSV files)  
 
 ## Installation with Composer
 
