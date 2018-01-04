@@ -22,6 +22,7 @@ use Yuki\Exception as Exception;
 use Yuki\ModelFactory;
 
 require_once __DIR__ . '\..\Exception\InvalidValueTypeException.php';
+require_once __DIR__ . '\..\Exception\NonAllowedEnumValueException.php';
 
 /**
  * Description of SalesInvoice
@@ -77,7 +78,7 @@ class SalesInvoice
                 $xmlDoc .= '<' . ModelFactory::getName($value) . '>';
                 $xmlDoc .= $this -> recursiveXml($value);
                 $xmlDoc .= '</' . ModelFactory::getName($value) . '>';
-            } else {
+            } else if ($value) {
                 $xmlDoc .= '<' . $property . '>' . $value . '</' . $property . '>';
             }
         }
@@ -143,6 +144,10 @@ class SalesInvoice
 
     public function setPaymentMethod($paymentMethod)
     {
+        $enum = array('Unspecified', 'ElectronicTransfer', 'DirectCollection', 'Cash', 'DebitCard', 'CreditCard', 'ReceivedElectronically', 'ReceivedCash', 'ToSettle', 'iDeal', 'Online');
+        if (!in_array($paymentMethod, $enum)) {
+            throw new Exception\NonAllowedEnumValueException(__CLASS__, 'PaymentMethod', $paymentMethod, json_encode($enum));
+        }
         $this -> paymentMethod = $paymentMethod;
         return $this;
     }
@@ -210,7 +215,7 @@ class SalesInvoice
         if (!is_bool($process)) {
             throw new Exception\InvalidValueTypeException(__CLASS__, 'process', gettype($process), 'boolean');
         }
-        $this -> process = $process;
+        $this -> process = ($process) ? 'true' : 'false';
         return $this;
     }
 
@@ -219,7 +224,7 @@ class SalesInvoice
         if (!is_bool($emailToCustomer)) {
             throw new Exception\InvalidValueTypeException(__CLASS__, 'emailToCustomer', gettype($emailToCustomer), 'boolean');
         }
-        $this -> emailToCustomer = $emailToCustomer;
+        $this -> emailToCustomer = ($emailToCustomer) ? 'true' : 'false';
         return $this;
     }
 
