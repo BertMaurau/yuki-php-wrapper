@@ -101,7 +101,7 @@ class Sales extends Yuki
             // check if tag is the level of the invoice
             if ($value['level'] === 3) {
                 // Add the value to the current invoice
-                $invoiceResponse[$invoiceCounter][$value['tag']] = $value['value'];
+                $invoiceResponse[$invoiceCounter][$value['tag']] = (isset($value['value'])) ? $value['value'] : null;
             }
 
             // increase the counter to start next invoice
