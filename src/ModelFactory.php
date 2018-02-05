@@ -18,8 +18,6 @@
 
 namespace Yuki;
 
-require_once __DIR__ . '\Exception\ModelNotFoundException.php';
-
 /**
  * Description of ModelFactory
  *

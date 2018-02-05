@@ -20,9 +20,6 @@ namespace Yuki\Model;
 
 use Yuki\Exception as Exception;
 
-require_once __DIR__ . '\..\Exception\InvalidValueTypeException.php';
-require_once __DIR__ . '\..\Exception\NonAllowedEnumValueException.php';
-
 /**
  * Description of Contact
  *

@@ -18,16 +18,6 @@
 
 namespace Yuki;
 
-require_once __DIR__ . '\Yuki.php';
-
-require_once __DIR__ . '\Exception\InvalidAdministrationIDException.php';
-require_once __DIR__ . '\Exception\InvalidSalesInvoiceException.php';
-
-require_once __DIR__ . '\Model\SalesInvoice.php';
-require_once __DIR__ . '\Model\Contact.php';
-require_once __DIR__ . '\Model\InvoiceLine.php';
-require_once __DIR__ . '\Model\Product.php';
-
 /**
  * Description of the Yuki Sales Sub service
  *

@@ -20,18 +20,6 @@ namespace Yuki;
 
 use Yuki\Exception as Exception;
 
-require_once __DIR__ . '\Exception\NoAuthenticationResultException.php';
-require_once __DIR__ . '\Exception\InvalidSessionIDException.php';
-require_once __DIR__ . '\Exception\InvalidDomainIDException.php';
-require_once __DIR__ . '\Exception\InvalidCredentialsException.php';
-require_once __DIR__ . '\Exception\InvalidAccessKeyException.php';
-require_once __DIR__ . '\Exception\InvalidAdministrationNameException.php';
-
-require_once __DIR__ . '\Model\Administration.php';
-require_once __DIR__ . '\Model\Domain.php';
-
-require_once __DIR__ . '\ModelFactory.php';
-
 /**
  * Description of the main Yuki Class
  *

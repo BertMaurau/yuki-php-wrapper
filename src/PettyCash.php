@@ -18,15 +18,6 @@
 
 namespace Yuki;
 
-require_once __DIR__ . '\Yuki.php';
-
-require_once __DIR__ . '\Exception\InvalidAdministrationIDException.php';
-require_once __DIR__ . '\Exception\InvalidStatementTextException.php';
-require_once __DIR__ . '\Exception\InvalidStatementLineException.php';
-
-require_once __DIR__ . '\Model\StatementLine.php';
-require_once __DIR__ . '\Model\StatementLineProject.php';
-
 /**
  * Description of the Yuki PettyCash Sub service
  *

@@ -20,8 +20,6 @@ namespace Yuki\Model;
 
 use Yuki\Exception as Exception;
 
-require_once __DIR__ . '\..\Exception\InvalidValueTypeException.php';
-
 /**
  * Description of InvoiceLine
  *

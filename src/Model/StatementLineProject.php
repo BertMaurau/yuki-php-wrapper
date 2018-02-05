@@ -18,8 +18,6 @@
 
 namespace Yuki\Model;
 
-require_once __DIR__ . '\StatementLine.php';
-
 /**
  * Description of StatementLineProject
  *
